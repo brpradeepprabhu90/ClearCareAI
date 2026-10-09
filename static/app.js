@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error extracting data:', error);
-            alert(`Failed to extract document: ${error.message}\nMake sure your GEMINI_API_KEY is set in .env!`);
+            alert(`Failed to extract document: ${error.message}\nMake sure your FEATHERLESS_API_KEY is set in .env!`);
             resetApp();
         }
     }

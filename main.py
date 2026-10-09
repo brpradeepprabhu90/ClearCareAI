@@ -5,7 +5,7 @@ import uvicorn
 import os
 from dotenv import load_dotenv
 
-# Load env variables (like GEMINI_API_KEY)
+# Load env variables (like FEATHERLESS_API_KEY)
 load_dotenv()
 
 app = FastAPI(title="ClearCare AI Backend - Actual Validation")

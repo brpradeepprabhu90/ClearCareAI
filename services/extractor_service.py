@@ -1,6 +1,6 @@
 import logging
-
-from google.genai import types
+import io
+import PyPDF2
 
 from models.domain import ExtractorOutput
 from services.llm import MODEL, generate_structured  # noqa: F401  (MODEL kept importable for logging)
@@ -68,20 +68,33 @@ async def extract_data(file_bytes: bytes, mime_type: str = "") -> ExtractorOutpu
         raise UnsupportedFileType("The uploaded file is empty.")
     if len(file_bytes) > MAX_BYTES:
         raise UnsupportedFileType("File is too large (10 MB max).")
+    
     real_mime = sniff_mime(file_bytes)
-    part = types.Part.from_bytes(data=file_bytes, mime_type=real_mime)
-    result = await generate_structured([part, PROMPT], ExtractorOutput, temperature=0.1)
+    if real_mime == "application/pdf":
+        try:
+            reader = PyPDF2.PdfReader(io.BytesIO(file_bytes))
+            text = "\n".join(page.extract_text() for page in reader.pages if page.extract_text())
+            part = f"Document Text:\n{text}"
+        except Exception as e:
+            raise ExtractionError(f"Failed to read PDF text: {e}")
+    else:
+        raise UnsupportedFileType("Please upload a PDF file. Images are not currently supported with Featherless AI text endpoints.")
+        
+    result = await generate_structured(f"{PROMPT}\n\n{part}", ExtractorOutput, temperature=0.1)
+    
     gaps = _gaps(result)
     if gaps:                                   # completeness check: retry once, then accept the better result
         log.warning("Extraction gaps: %s; retrying once", gaps)
         retry_prompt = (PROMPT + "\n\nYour previous answer left these empty or too short: " + ", ".join(gaps) +
                         ". Re-read the WHOLE document, including later pages, and fill them if the document contains that information.")
-        second = await generate_structured([part, retry_prompt], ExtractorOutput, temperature=0.1)
+        second = await generate_structured(f"{retry_prompt}\n\n{part}", ExtractorOutput, temperature=0.1)
         if len(_gaps(second)) <= len(gaps) and getattr(second, "medications", None):
             result = second
+            
     log.info("extracted: diagnosis=%d chars, diet=%d chars, warnings=%d chars, meds=%d",
              len(str(_dx(result))), len(str(getattr(result, "diet_activity_instructions", "") or "")),
              len(str(getattr(result, "warning_signs_raw", "") or "")), len(getattr(result, "medications", []) or []))
+             
     if not getattr(result, "medications", None):
         raise ExtractionError("No medications could be read from this document. Try a clearer file.")
     return result
