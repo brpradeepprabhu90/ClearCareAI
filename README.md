@@ -2,7 +2,7 @@
 
 **Your Discharge, Decoded for a Better Recovery.**
 
-ClearCare AI is an intelligent medical discharge dashboard designed to reduce readmissions by making complex clinical discharge summaries easy to understand. It extracts dense medical data from uploaded PDFs and uses a multi-agent system (powered by Gemini-3.8-flash) to generate a plain-language summary, a structured daily schedule, and critical clinical safety checks.
+ClearCare AI is an intelligent medical discharge dashboard designed to reduce readmissions by making complex clinical discharge summaries easy to understand. It extracts dense medical data from uploaded PDFs and uses a multi-agent system (powered by Featherless AI) to generate a plain-language summary, a structured daily schedule, and critical clinical safety checks.
 
 ## Features
 
@@ -38,7 +38,7 @@ forge_hacks/
 ## Prerequisites
 
 - **Python 3.10+**
-- A **Google Gemini API Key** (for the `google-genai` SDK)
+- A **Featherless AI API Key** (from https://featherless.ai/)
 
 ## Installation
 
@@ -69,9 +69,9 @@ forge_hacks/
    ```
 
 4. **Set up Environment Variables:**
-   Create a `.env` file in the root directory and add your Gemini API key:
+   Create a `.env` file in the root directory and add your Featherless API key:
    ```env
-   GEMINI_API_KEY=your_actual_api_key_here
+   FEATHERLESS_API_KEY=your_actual_api_key_here
    ```
 
 ## Running the Application
@@ -92,10 +92,10 @@ forge_hacks/
 
 ## Important Note on Data Privacy
 
-This application is a **prototype** designed for a hackathon. While it implements an in-memory extraction pipeline to avoid saving PDFs to disk, **do not upload real Protected Health Information (PHI)** unless your Google Cloud/Gemini project is specifically configured with HIPAA BAAs (Business Associate Agreements) and enterprise data governance policies. Always use mock or anonymized patient data for development and testing.
+This application is a **prototype** designed for a hackathon. While it implements an in-memory extraction pipeline to avoid saving PDFs to disk, **do not upload real Protected Health Information (PHI)** unless your Featherless AI account is specifically configured with HIPAA BAAs (Business Associate Agreements) and enterprise data governance policies. Always use mock or anonymized patient data for development and testing.
 
 ## Built With
 
 - **Backend**: FastAPI, Pydantic, Python `asyncio`
 - **Frontend**: Vanilla HTML5, CSS3, JavaScript (No heavy frameworks)
-- **AI**: Google GenAI SDK (`gemini-3.8-flash`)
+- **AI**: Featherless AI
