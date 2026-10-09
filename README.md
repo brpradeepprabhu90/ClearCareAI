@@ -24,11 +24,6 @@ forge_hacks/
 │   ├── explainer_scheduler_service.py  # Summary and Schedule generation agents
 │   ├── extractor_service.py            # PDF text extraction agent
 │   └── safety_service.py               # Deterministic and LLM safety checks
-├── static/
-│   ├── app.js                    # (Deprecated) Vanilla JS frontend logic
-│   ├── index.html                # (Deprecated) Main UI dashboard
-│   ├── styles.css                # (Deprecated) Custom CSS
-│   └── logo.jpg                  # Project logo
 ├── frontend/                     # Modern React SPA
 │   ├── package.json              # NPM dependencies
 │   ├── vite.config.js            # Vite build and proxy config
@@ -46,6 +41,7 @@ forge_hacks/
 
 ## Prerequisites
 
+- **Python 3.10+** (for the FastAPI backend)
 - **Node.js 18+** (for the React frontend)
 - A **Featherless AI API Key** (from https://featherless.ai/)
 
