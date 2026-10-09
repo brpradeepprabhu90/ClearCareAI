@@ -327,27 +327,32 @@ Headline (1 line), "What to do" (1 line), expandable detail, basis label, and a 
 
 ## 20. Repo Structure
 
-```
-clearcare-ai/
+```text
+forge_hacks/
 ├── README.md
 ├── design.md
-├── backend/
-│   ├── main.py              # FastAPI, serves UI + /api/plan
-│   ├── agents/
-│   │   ├── extractor.py
-│   │   ├── safety.py        # rules + label grounding + LLM explanation
-│   │   ├── explainer.py
-│   │   └── scheduler.py
-│   ├── rules/interactions.yaml   # deterministic rule table
-│   ├── clients/             # rxnorm.py, openfda.py (cached)
-│   ├── i18n/                # en.json, es.json (static UI strings)
-│   └── schemas.py
-├── frontend/                # index.html, app.js, styles.css (+ print.css)
-├── eval/
-│   ├── synthetic_docs/      # sample_discharge_summary.pdf + variants
-│   ├── ground_truth/
-│   └── run_eval.py
-└── docs/architecture.png
+├── api/
+│   └── routes.py                 # FastAPI endpoints (upload, orchestration)
+├── models/
+│   └── domain.py                 # Pydantic schemas enforcing strict JSON contracts
+├── services/
+│   ├── explainer_scheduler_service.py  # Summary and Schedule generation agents
+│   ├── extractor_service.py            # PDF text extraction agent
+│   ├── safety_service.py               # Deterministic and LLM safety checks
+│   ├── safety_rules.py                 # Deterministic interaction rules
+│   └── openfda_client.py               # FDA label fetching
+├── frontend/                     # Modern React SPA
+│   ├── package.json              # NPM dependencies
+│   ├── vite.config.js            # Vite build and proxy config
+│   ├── src/                      
+│   │   ├── App.jsx               # Main React Application
+│   │   ├── main.jsx              # Vite Entrypoint
+│   │   ├── index.css             # Tailwind CSS entrypoint
+│   │   ├── components/           # React Components (UploadView, DashboardView, etc)
+│   │   └── store/useAppStore.js  # Zustand state management
+├── main.py                       # FastAPI application entrypoint
+├── requirements.txt              # Python dependencies
+└── .env                          # Environment variables (API keys)
 ```
 
 ## 21. API Contract (target)
@@ -355,5 +360,5 @@ clearcare-ai/
 | Endpoint | Method | Request | Response |
 |---|---|---|---|
 | `/api/extract` | POST | multipart PDF | extracted JSON (for the confirm step) |
-| `/api/plan` | POST | confirmed JSON, `lang` | plan JSON (§10) with EN and ES strings |
+| `/api/generate_plan` | POST | confirmed JSON, `lang` | plan JSON (§10) with EN and ES strings |
 | `/api/health` | GET | none | `{"status":"ok"}` |

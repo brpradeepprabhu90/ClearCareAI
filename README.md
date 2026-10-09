@@ -8,7 +8,7 @@ ClearCare AI is an intelligent medical discharge dashboard designed to reduce re
 
 - **Multi-Agent Orchestration**: Concurrently runs 3 specialized agents (Safety, Explainer, Scheduler) for high-speed processing.
 - **Bilingual Support (EN/ES)**: Instantly toggle the entire care plan between English and Spanish.
-- **Deterministic Safety Rules**: Uses a hardcoded clinical rule engine combined with AI-assisted checks to guarantee critical drug-drug and drug-disease warnings are always flagged (e.g., NSAIDs + Heart Failure).
+- **Deterministic Safety Rules**: Uses a hardcoded clinical rule engine combined with AI-assisted checks to guarantee critical drug-drug and drug-disease warnings are always flagged (e.g., NSAIDs + Heart Failure). Uses the **openFDA API** to dynamically fetch verified medication labels and citations to prevent AI hallucinations.
 - **HIPAA-Conscious Architecture**: Processes PDFs entirely in memory without writing sensitive files to disk.
 - **Smart Timeline**: Intelligently groups medications by time of day and highlights dangerous interactions directly in the schedule.
 
