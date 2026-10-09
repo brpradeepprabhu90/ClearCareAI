@@ -25,3 +25,12 @@ htmlcov/
 # Local uploads/temp
 *.pdf
 tmp/
+
+# Frontend (Node.js & Vite)
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.env.*.local
+frontend/.eslintcache

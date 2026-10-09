@@ -13,11 +13,15 @@ app = FastAPI(title="ClearCare AI Backend - Actual Validation")
 # Include modular API routes
 app.include_router(api_router)
 
-# Mount static files
-if not os.path.exists("static"):
-    os.makedirs("static")
+from fastapi.responses import RedirectResponse
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# Mount React build if it exists (for production)
+if os.path.exists("frontend/dist"):
+    app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="frontend")
+else:
+    @app.get("/")
+    def read_root():
+        return RedirectResponse(url="http://localhost:5173")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from fastapi.responses import JSONResponse
+
 from services.extractor_service import extract_data
 from services.safety_service import check_safety
 from services.explainer_scheduler_service import generate_explanation, generate_schedule

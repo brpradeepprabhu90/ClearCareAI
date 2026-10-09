@@ -25,10 +25,19 @@ forge_hacks/
 │   ├── extractor_service.py            # PDF text extraction agent
 │   └── safety_service.py               # Deterministic and LLM safety checks
 ├── static/
-│   ├── app.js                    # Vanilla JS frontend logic
-│   ├── index.html                # Main UI dashboard
-│   ├── styles.css                # Custom CSS (Glassmorphism, responsive grid)
+│   ├── app.js                    # (Deprecated) Vanilla JS frontend logic
+│   ├── index.html                # (Deprecated) Main UI dashboard
+│   ├── styles.css                # (Deprecated) Custom CSS
 │   └── logo.jpg                  # Project logo
+├── frontend/                     # Modern React SPA
+│   ├── package.json              # NPM dependencies
+│   ├── vite.config.js            # Vite build and proxy config
+│   ├── src/                      
+│   │   ├── App.jsx               # Main React Application
+│   │   ├── main.jsx              # Vite Entrypoint
+│   │   ├── index.css             # Tailwind CSS entrypoint
+│   │   ├── components/           # React Components (UploadView, DashboardView, etc)
+│   │   └── store/useAppStore.js  # Zustand state management
 ├── main.py                       # FastAPI application entrypoint
 ├── design.md                     # Technical architecture and specs
 ├── requirements.txt              # Python dependencies
@@ -37,7 +46,7 @@ forge_hacks/
 
 ## Prerequisites
 
-- **Python 3.10+**
+- **Node.js 18+** (for the React frontend)
 - A **Featherless AI API Key** (from https://featherless.ai/)
 
 ## Installation
@@ -76,14 +85,21 @@ forge_hacks/
 
 ## Running the Application
 
-1. **Start the FastAPI server:**
+1. **Start the FastAPI backend:**
    ```bash
    uvicorn main:app --host 0.0.0.0 --port 8000 --reload
    ```
 
-2. **Open the Application:**
-   Open your web browser and navigate to:
-   [http://localhost:8000](http://localhost:8000)
+2. **Start the React Frontend (in a new terminal):**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+3. **Open the Application:**
+   Open your web browser and navigate to the Vite local URL:
+   [http://localhost:5173](http://localhost:5173)
 
 3. **Usage:**
    - Drag and drop a patient discharge PDF into the upload zone.
@@ -97,5 +113,5 @@ This application is a **prototype** designed for a hackathon. While it implement
 ## Built With
 
 - **Backend**: FastAPI, Pydantic, Python `asyncio`
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript (No heavy frameworks)
+- **Frontend**: React, Vite, Tailwind CSS, Zustand
 - **AI**: Featherless AI

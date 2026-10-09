@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm;
+  }
+  .btn-secondary {
+    @apply bg-white text-secondary border border-gray-200 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors shadow-sm;
+  }
+  .bento-card {
+    @apply bg-white rounded-2xl p-6 shadow-sm border border-gray-100;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
