@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearCare AI - Discharge Plans Made Simple</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-elements">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <img src="logo.jpg" alt="ClearCare AI Logo" class="logo-img">
+            <h1>ClearCare AI</h1>
+        </div>
+        <nav>
+            <div class="privacy-badge">
+                <span class="icon">🔒</span> Processed in memory. Nothing is stored.
+            </div>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Patients</a>
+            <a href="#">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="upload-section" class="active-view">
+            <div class="hero-text">
+                <span class="tagline">Your Discharge, Decoded for a Better Recovery.</span>
+                <h2>Transform confusing discharge papers into <span class="gradient-text">clear, actionable plans.</span></h2>
+                <p>Get a clear, easy-to-read daily schedule and safety check from your complex hospital paperwork in seconds.</p>
+            </div>
+            
+            <div class="upload-card">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="upload-icon">📄</div>
+                    <h3>Upload Discharge Papers</h3>
+                    <p>Drag & drop PDF, JPG, or PNG</p>
+                    <input type="file" id="file-input" hidden accept=".pdf,.jpg,.jpeg,.png">
+                    <button class="btn-primary" onclick="document.getElementById('file-input').click()">Select File</button>
+                </div>
+            </div>
+            
+            <div class="how-it-works">
+                <div class="step">
+                    <div class="step-icon">📄</div>
+                    <span class="step-text">1. Upload PDF</span>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-icon">🧠</div>
+                    <span class="step-text">2. AI Analyzes</span>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-icon">✨</div>
+                    <span class="step-text">3. Get Care Plan</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="pipeline-section" class="hidden-view">
+            <div class="pipeline-status">
+                <h2>Processing Document</h2>
+                <div class="agents-container">
+                    <div class="agent-step" id="step-extractor">
+                        <div class="spinner"></div>
+                        <span class="agent-name">Extractor Agent</span>
+                        <span class="agent-desc">OCR + LLM parsing</span>
+                    </div>
+                    <div class="agent-line"></div>
+                    <div class="agent-step pending" id="step-safety">
+                        <div class="spinner"></div>
+                        <span class="agent-name">Safety-Check Agent</span>
+                        <span class="agent-desc">openFDA/RxNorm</span>
+                    </div>
+                    <div class="agent-line"></div>
+                    <div class="agent-step pending" id="step-explainer">
+                        <div class="spinner"></div>
+                        <span class="agent-name">Explainer Agent</span>
+                        <span class="agent-desc">Multilingual summary</span>
+                    </div>
+                    <div class="agent-line"></div>
+                    <div class="agent-step pending" id="step-scheduler">
+                        <div class="spinner"></div>
+                        <span class="agent-name">Scheduler Agent</span>
+                        <span class="agent-desc">Daily timeline</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="confirm-section" class="hidden-view">
+            <div class="confirm-card">
+                <h2>Confirm Extracted Medications</h2>
+                <p class="subtitle">Please verify the medications extracted from the document before proceeding.</p>
+                <div class="meds-list" id="meds-list-container">
+                    <!-- Populated by JS -->
+                </div>
+                <button class="btn-primary" id="btn-confirm-meds">Confirm & Generate Plan</button>
+            </div>
+        </section>
+
+        <section id="results-section" class="hidden-view">
+            <div class="dashboard-header">
+                <h2>Patient Care Plan</h2>
+                <div class="language-toggle">
+                    <button class="btn-lang active" data-lang="en">English</button>
+                    <button class="btn-lang" data-lang="es">Español</button>
+                </div>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Safety Card (Hero) -->
+                <div class="bento-card safety-card hero-card">
+                    <div class="card-header">
+                        <span class="icon">🛡️</span>
+                        <h3>Safety Check</h3>
+                        <span class="badge verified">✓ AI-Assisted Check against Clinical Guidelines</span>
+                    </div>
+                    <div class="safety-content" id="safety-details-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Explainer Card -->
+                <div class="bento-card explainer-card">
+                    <div class="card-header">
+                        <span class="icon">📝</span>
+                        <h3>Plain-Language Summary</h3>
+                    </div>
+                    <ul id="summary-content" class="summary-list"></ul>
+                </div>
+
+                <!-- Diet and Activity Card -->
+                <div class="bento-card diet-card">
+                    <div class="card-header">
+                        <span class="icon">🥗</span>
+                        <h3>Diet & Activity Limits</h3>
+                    </div>
+                    <ul id="diet-content" class="warning-list"></ul>
+                </div>
+
+                <!-- Schedule Card -->
+                <div class="bento-card schedule-card">
+                    <div class="card-header">
+                        <span class="icon">⏰</span>
+                        <h3>Daily Schedule</h3>
+                    </div>
+                    <div class="timeline" id="timeline-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Warning Card -->
+                <div class="bento-card warning-card">
+                    <div class="card-header">
+                        <span class="icon">⚠️</span>
+                        <h3>When to call the doctor</h3>
+                    </div>
+                    <div class="warning-section">
+                        <h4 style="color:var(--text-secondary); margin-bottom: 0.5rem; margin-top: 1rem;">From your discharge papers</h4>
+                        <ul id="doc-warning-list" class="warning-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                    <div class="warning-section">
+                        <h4 style="color:var(--text-secondary); margin-bottom: 0.5rem; margin-top: 1rem;">General safety info</h4>
+                        <ul id="gen-warning-list" class="warning-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                <span class="icon">⚕️</span>
+                <p><strong>Not medical advice.</strong> Confirm this plan with your care team before making any changes.</p>
+            </div>
+            
+            <div class="actions">
+                <button class="btn-secondary" onclick="resetApp()">Start Over</button>
+                <button class="btn-primary" onclick="window.print()">Print Plan</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
